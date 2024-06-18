@@ -1,20 +1,15 @@
-package QaYaScooterTest;
+package scootertest;
+
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import QaYaScooter.*;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(Parameterized.class)
-public class TestDropDownList {
+import scooter.*;
 
-    //выбор браузера для теста
-    Browsers browser = new Browsers();
-    WebDriver driver = browser.webDriverFromChrome();
+@RunWith(Parameterized.class)
+public class TestDropDownList extends BaseTestActions {
 
     private final int itemIndex;
     private final String expectedText;
@@ -39,24 +34,10 @@ public class TestDropDownList {
     }
 
     @Test
-    public void checkAllowChrome() {
-
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        //дали разрешение на куки
-        CookiesWindowPageObject objCookiesAllow = new CookiesWindowPageObject(driver);
-        objCookiesAllow.allowCookies();
-
+    public void checkDropdownListElementsContent() {
         DropDownListPageObject objTextOnTheList = new DropDownListPageObject(driver);
-       //скролл до списка с вопросами
         objTextOnTheList.scrollOfListQuestions();
-        //переменная для индекса элементов
         String actualText = objTextOnTheList.getTextOfListQuestions(itemIndex);
         assertEquals(expectedText, actualText);
-
-    }
-    @After
-    public void tearDown() {
-        driver.quit();
     }
 }
